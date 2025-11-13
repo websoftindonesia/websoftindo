@@ -1,0 +1,1152 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>websoft.com</title>
+
+    <style>
+        /* --- 0. Pengaturan Dasar & Variabel --- */
+        :root {
+            --color-primary: #0056b3; /* Biru Tua */
+            --color-primary-light: #007bff; /* Biru Cerah */
+            --color-white: #ffffff;
+            --color-light-bg: #f0f8ff; /* Biru Sangat Muda */
+            --color-dark: #333;
+            --color-text: #555;
+            --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-color: var(--color-white);
+            color: var(--color-dark);
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 32px;
+            color: var(--color-primary);
+            margin-bottom: 50px;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* --- 1. Header, Navigasi, & Dropdown --- */
+        header {
+            background-color: var(--color-white);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: padding 0.3s ease-in-out;
+        }
+        
+        header.scrolled {
+            padding: 10px 0;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 26px;
+            color: var(--color-primary);
+            margin: 0;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        
+        header nav li {
+            margin-left: 20px;
+            position: relative; /* Untuk dropdown */
+        }
+
+        header nav a {
+            text-decoration: none;
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px 5px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        header nav a:hover {
+            color: var(--color-primary-light);
+        }
+
+        /* Garis bawah untuk link aktif (dari JS) */
+        header nav a.active-link {
+            color: var(--color-primary-light);
+            border-bottom: 2px solid var(--color-primary-light);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            display: none; /* Sembunyi by default */
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--color-white);
+            box-shadow: var(--shadow);
+            border-radius: 5px;
+            padding: 10px 0;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        li.dropdown-toggle:hover .dropdown {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown a {
+            display: block;
+            padding: 8px 15px;
+            color: var(--color-dark);
+            font-weight: normal;
+        }
+        
+        .dropdown a:hover {
+            background-color: #f4f4f4;
+            color: var(--color-primary);
+        }
+        
+        /* Tombol Menu (Hamburger) */
+        #menu-toggle {
+            display: none; /* Sembunyi di desktop */
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: var(--color-primary);
+            cursor: pointer;
+        }
+
+        /* --- 2. Bagian Hero --- */
+        #hero {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        #hero h2 {
+            font-size: 42px;
+            color: var(--color-white);
+            margin-bottom: 15px;
+        }
+
+        #hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background-color: var(--color-white);
+            color: var(--color-primary);
+            padding: 14px 28px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--color-light-bg);
+        }
+
+        /* --- 3. Bagian Layanan --- */
+        #layanan {
+            background-color: var(--color-light-bg);
+        }
+
+        .layanan-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .layanan-item {
+            background-color: var(--color-white);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .layanan-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .layanan-icon {
+            font-size: 40px;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+        }
+
+        .layanan-item h3 {
+            color: var(--color-primary);
+            margin-top: 0;
+            font-size: 20px;
+        }
+        
+        .layanan-item p {
+            font-size: 15px;
+            color: var(--color-text);
+        }
+
+        /* --- 4. Bagian Portofolio --- */
+        #portofolio {
+            background-color: var(--color-white);
+        }
+        
+        .portofolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .portofolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .portofolio-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        
+        .portofolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 86, 179, 0.7); /* Transparan Biru */
+            color: var(--color-white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(1.1);
+            transition: all 0.4s ease;
+        }
+        
+        .portofolio-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .portofolio-item:hover .portofolio-overlay {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .portofolio-overlay h4 {
+            font-size: 18px;
+            margin: 0;
+        }
+        
+        .portofolio-overlay p {
+            font-size: 14px;
+            margin: 5px 0 0 0;
+        }
+        
+        /* --- 5. Bagian Tentang Kami --- */
+        #tentang {
+            background-color: var(--color-light-bg);
+        }
+
+        .tentang-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .tentang-container p {
+            font-size: 17px;
+            margin-bottom: 40px;
+        }
+
+        /* Sub-section: Proses Kerja */
+        .proses-kerja {
+            margin-bottom: 60px;
+        }
+        
+        .proses-kerja h3 {
+            font-size: 24px;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .proses-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .proses-step {
+            text-align: center;
+        }
+        
+        .proses-icon {
+            font-size: 30px;
+            padding: 20px;
+            background-color: var(--color-white);
+            color: var(--color-primary);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+        }
+        
+        .proses-step h4 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--color-dark);
+        }
+        
+        /* Sub-section: Tim Kami */
+        .tim-kami {
+            text-align: center;
+        }
+        
+        .tim-kami h3 {
+            font-size: 24px;
+            color: var(--color-primary);
+            margin-bottom: 30px;
+        }
+
+        .tim-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .tim-item {
+            background: var(--color-white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .tim-item img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 4px solid var(--color-light-bg);
+        }
+        
+        .tim-item h4 {
+            margin: 0 0 5px 0;
+            color: var(--color-primary);
+        }
+        
+        .tim-item p {
+            margin: 0;
+            font-style: italic;
+            color: var(--color-text);
+            font-size: 15px;
+        }
+
+        /* --- 6. Bagian Kontak --- */
+        #kontak {
+            background-color: var(--color-white);
+        }
+
+        .kontak-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        
+        .info-kontak h3, .form-kontak h3 {
+            color: var(--color-primary);
+            text-align: left;
+            margin-top: 0;
+            font-size: 24px;
+        }
+        
+        .info-kontak p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .info-kontak strong {
+            color: var(--color-primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; 
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        /* Styling untuk Validasi Error (dari JS) */
+        .error-message {
+            color: #d93025;
+            font-size: 12px;
+            display: none;
+            position: absolute;
+            bottom: -18px;
+            left: 0;
+        }
+        
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: #d93025;
+        }
+        
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .submit-button {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            background-color: var(--color-primary-light);
+        }
+
+        /* --- 7. Footer --- */
+        footer {
+            background-color: var(--color-primary-light);
+            color: var(--color-white);
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+
+        /* --- 8. Tombol Back to Top --- */
+        #backToTop {
+            display: none; 
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            border: none;
+            background-color: var(--color-primary);
+            color: white;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: opacity 0.3s, visibility 0.3s;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        #backToTop.show {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #backToTop:hover {
+            background-color: var(--color-primary-light);
+        }
+        
+        /* --- 9. Modal Portofolio --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.85);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            animation: zoom 0.4s ease;
+        }
+        
+        .modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+        }
+        
+        .modal-caption h4 {
+            margin: 0 0 5px 0;
+            font-size: 20px;
+            color: var(--color-white);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: #bbb;
+        }
+        
+        @keyframes zoom {
+            from {transform: scale(0.8)}
+            to {transform: scale(1)}
+        }
+
+        /* --- 10. Animasi "Fade-in" saat Scroll --- */
+        /* Kelas ini ditambahkan oleh JS (Intersection Observer) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* --- 11. Media Queries (Responsif) --- */
+        @media (max-width: 992px) {
+            .layanan-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .portofolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .proses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tim-grid {
+                grid-template-columns: 1fr;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            .kontak-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            /* Tampilkan Tombol Hamburger */
+            #menu-toggle {
+                display: block;
+            }
+            
+            /* Sembunyikan Navigasi Desktop */
+            header nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--color-white);
+                box-shadow: var(--shadow);
+            }
+            
+            /* Tampilkan Navigasi saat 'active' (dari JS) */
+            header nav ul.active {
+                display: flex;
+            }
+            
+            header nav li {
+                margin: 0;
+            }
+            
+            header nav a {
+                display: block;
+                padding: 15px 20px;
+                border-bottom: 1px solid #f4f4f4;
+            }
+            
+            /* Matikan dropdown hover di mobile */
+            li.dropdown-toggle:hover .dropdown {
+                display: none;
+            }
+            
+            .dropdown {
+                position: static;
+                display: block;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                padding: 0;
+                min-width: 0;
+            }
+            
+            .dropdown a {
+                padding-left: 30px;
+                background-color: #f9f9f9;
+                color: #555;
+            }
+            
+            .layanan-grid {
+                grid-template-columns: 1fr;
+            }
+            .portofolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .proses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="container">
+            <a href="#hero" class="logo"><img src="https://media.licdn.com/dms/image/v2/D4E0BAQHAQdCLJYdPLA/company-logo_100_100/B4EZp4FgRcKsAQ-/0/1762951301453?e=1764806400&v=beta&t=vn9ZHmfsMekAQKZAQ0UTkQ1pk7bFj7kU08kEMdPKsCs"></a>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="#hero" class="nav-link">Home</a></li>
+                    
+                    <li class="dropdown-toggle">
+                        <a href="#layanan" class="nav-link">Layanan</a>
+                        <ul class="dropdown">
+                            <li><a href="#layanan">Semua Layanan</a></li>
+                            <li><a href="#">Web Design</a></li>
+                            <li><a href="#">E-Commerce</a></li>
+                            <li><a href="#">SEO</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li><a href="#portofolio" class="nav-link">Portofolio</a></li>
+                    <li><a href="#tentang" class="nav-link">Tentang Kami</a></li>
+                    <li><a href="#kontak" class="nav-link">Kontak</a></li>
+                </ul>
+            </nav>
+            <button id="menu-toggle">☰</button>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container">
+            <h2>Solusi Digital Inovatif untuk Bisnis Anda</h2>
+            <p>Dari Ide Menjadi Realitas Digital yang Menguntungkan.</p>
+            <a href="#kontak" class="cta-button">Konsultasi Gratis</a>
+        </div>
+    </section>
+
+    <section id="layanan">
+        <div class="container">
+            <h2>Apa yang Kami Tawarkan</h2>
+            <div class="layanan-grid">
+                
+                <div class="layanan-item reveal">
+                    <div class="layanan-icon">🖥️</div>
+                    <h3>Desain Website Kustom</h3>
+                    <p>Desain unik yang mencerminkan identitas brand Anda dan menarik bagi pengunjung.</p>
+                </div>
+                
+                <div class="layanan-item reveal">
+                    <div class="layanan-icon">🛒</div>
+                    <h3>Solusi E-commerce</h3>
+                    <p>Membangun toko online yang fungsional, aman, dan mudah dikelola untuk meningkatkan penjualan.</p>
+                </div>
+                
+                <div class="layanan-item reveal">
+                    <div class="layanan-icon">📱</div>
+                    <h3>Desain Responsif</h3>
+                    <p>Website Anda akan tampil sempurna di semua perangkat, dari desktop, tablet, hingga ponsel.</p>
+                </div>
+                
+                <div class="layanan-item reveal">
+                    <div class="layanan-icon">🚀</div>
+                    <h3>SEO & Pemasaran Digital</h3>
+                    <p>Meningkatkan visibilitas website Anda di mesin pencari seperti Google untuk menjangkau lebih banyak klien.</p>
+                </div>
+                
+                <div class="layanan-item reveal">
+                    <div class="layanan-icon">⚙️</div>
+                    <h3>Aplikasi Web</h3>
+                    <p>Mengembangkan aplikasi web kustom yang kompleks, seperti sistem manajemen atau portal internal.</p>
+                </div>
+                
+                <div class="layanan-item reveal">
+                    <div class="layanan-icon">🛡️</div>
+                    <h3>Maintenance & Keamanan</h3>
+                    <p>Layanan pemeliharaan rutin, update, dan proteksi keamanan agar website Anda selalu optimal.</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <section id="portofolio">
+        <div class="container">
+            <h2>Karya Terbaik Kami</h2>
+            <div class="portofolio-grid">
+                
+                <div class="portofolio-item reveal" 
+                     data-img-src="https://marketplace.canva.com/EAFoMm84EgA/2/0/800w/canva-hijau-dan-kuning-minimalis-kedai-kopi-web-ui-prototipe-3dKs5EBFsnA.jpg" 
+                     data-title="Toko Online Kopi"
+                     data-desc="Pengembangan toko online E-commerce lengkap dengan payment gateway.">
+                    <img src="https://marketplace.canva.com/EAFoMm84EgA/2/0/800w/canva-hijau-dan-kuning-minimalis-kedai-kopi-web-ui-prototipe-3dKs5EBFsnA.jpg" alt="Portofolio E-commerce">
+                    <div class="portofolio-overlay">
+                        <h4>Toko Online Kopi</h4>
+                        <p>E-commerce</p>
+                    </div>
+                </div>
+                
+                <div class="portofolio-item reveal"
+                     data-img-src= "c:\Users\Pongo\OneDrive\Gambar\Screenshots\Screenshot 2025-11-13 165400.png"
+                     data-title="Website Korporat"
+                     data-desc="Website profil perusahaan modern untuk Bumindo Group.">
+                    <img src="c:\Users\Pongo\OneDrive\Gambar\Screenshots\Screenshot 2025-11-13 165400.png" alt="Portofolio Start Up">
+                    <div class="portofolio-overlay">
+                        <h4>Bumindo Group</h4>
+                        <p>Website Perusahaan</p>
+                    </div>
+                </div>
+                
+                <div class="portofolio-item reveal"
+                     data-img-src="https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fassets.justinmind.com%2Fwp-content%2Fuploads%2F2023%2F03%2Fweb-app-design-templates-justinmind-768x486.png&sp=1763027175T7d0b48709508e1bc4e3a79e8ad702ee04f5c136a1949b3664d88c1c304a01b87"
+                     data-title="Sistem Manajemen"
+                     data-desc="Aplikasi web internal untuk manajemen inventaris dan SDM.">
+                    <img src="https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fassets.justinmind.com%2Fwp-content%2Fuploads%2F2023%2F03%2Fweb-app-design-templates-justinmind-768x486.png&sp=1763027175T7d0b48709508e1bc4e3a79e8ad702ee04f5c136a1949b3664d88c1c304a01b87" alt="Portofolio Web App">
+                    <div class="portofolio-overlay">
+                        <h4>Sistem Inventaris</h4>
+                        <p>Aplikasi Web</p>
+                    </div>
+                </div>
+
+                <div class="portofolio-item reveal"
+                     data-img-src="https://www.startpage.com/av/proxy-image?piurl=http%3A%2F%2Fecomposer.io%2Fcdn%2Fshop%2Farticles%2Fimage17_92370264-9bc0-46f6-9c1a-80d9643d0376.png%3Fv%3D1689814338&sp=1763027235T9c426a5953a8ead0370cfc0dfc49c462e76c5e44ab77f5c016e21b953cf912d8"
+                     data-title="Landing Page Event"
+                     data-desc="Desain landing page untuk peluncuran produk baru.">
+                    <img src="https://www.startpage.com/av/proxy-image?piurl=http%3A%2F%2Fecomposer.io%2Fcdn%2Fshop%2Farticles%2Fimage17_92370264-9bc0-46f6-9c1a-80d9643d0376.png%3Fv%3D1689814338&sp=1763027235T9c426a5953a8ead0370cfc0dfc49c462e76c5e44ab77f5c016e21b953cf912d8" alt="Portofolio Landing Page">
+                    <div class="portofolio-overlay">
+                        <h4>Event Launch</h4>
+                        <p>Landing Page</p>
+                    </div>
+                </div>
+
+                <div class="portofolio-item reveal"
+                     data-img-src="https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fthememasterly.com%2Fwp-content%2Fuploads%2F2023%2F12%2FHernando-professional-ngo-website-template.jpg&sp=1763027552Tfc4ecb64a32e39a35ccf0f59af4dddcf0a09a234e4d132397596f1db25b7b4d0"
+                     data-title="Website Yayasan"
+                     data-desc="Website informatif dan donasi untuk organisasi non-profit.">
+                    <img src="https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fthememasterly.com%2Fwp-content%2Fuploads%2F2023%2F12%2FHernando-professional-ngo-website-template.jpg&sp=1763027552Tfc4ecb64a32e39a35ccf0f59af4dddcf0a09a234e4d132397596f1db25b7b4d0" alt="Portofolio NGO">
+                    <div class="portofolio-overlay">
+                        <h4>Yayasan Peduli</h4>
+                        <p>Website NGO</p>
+                    </div>
+                </div>
+
+                <div class="portofolio-item reveal"
+                     data-img-src="c:\Users\Pongo\OneDrive\Gambar\Screenshots\Screenshot 2025-11-13 165818.png"
+                     data-title="Website Restoran"
+                     data-desc="Website dengan galeri menu dan sistem reservasi online.">
+                    <img src= "c:\Users\Pongo\OneDrive\Gambar\Screenshots\Screenshot 2025-11-13 165818.png" alt="Portofolio Restoran">
+                    <div class="portofolio-overlay">
+                        <h4>Resto Nusantara</h4>
+                        <p>Website Restoran</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="tentang">
+        <div class="container">
+            <h2>Tentang Websoft Indonesia</h2>
+            <div class="tentang-container">
+                <p class="reveal">Kami adalah agensi digital kreatif yang berbasis di Indonesia, berfokus pada kualitas, inovasi, & kecepatan. Kami memanfaatkan teknologi untuk membawa hasil dan menumbuhkan bisnis klien kami. Kami bangga dengan etos kerja, integritas, dan hasil akhir kami.</p>
+                
+                <div class="proses-kerja reveal">
+                    <h3>Proses Kerja Kami</h3>
+                    <div class="proses-grid">
+                        <div class="proses-step">
+                            <div class="proses-icon">1.</div>
+                            <h4>Konsultasi</h4>
+                        </div>
+                        <div class="proses-step">
+                            <div class="proses-icon">2.</div>
+                            <h4>Desain & Prototyping</h4>
+                        </div>
+                        <div class="proses-step">
+                            <div class="proses-icon">3.</div>
+                            <h4>Pengembangan</h4>
+                        </div>
+                        <div class="proses-step">
+                            <div class="proses-icon">4.</div>
+                            <h4>Peluncuran & Dukungan</h4>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tim-kami reveal">
+                    <h3>Tim Profesional Kami</h3>
+                        <div class="tim-item">
+                            <img src="https://media.licdn.com/dms/image/v2/D4E03AQGEQfy5fw9_8g/profile-displayphoto-scale_400_400/B4EZoaJ0Z0IIAg-/0/1761375373833?e=1764806400&v=beta&t=_XEWsUiW5NH9vFYqEyDeYLPXuOZJS20rPLJX0SOuF5Y" alt="Foto Tim 2">
+                            <h4>Muhammad Fawwaz Rayyan Khalish</h4>
+                            <p>Chief Executive Officer Of WEBSOFT Indonesia</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak">
+        <div class="container">
+            <h2>Hubungi Kami</h2>
+            <div class="kontak-container">
+                
+                <div class="info-kontak reveal">
+                    <h3>Informasi Kontak</h3>
+                    <p>Siap untuk memulai proyek Anda? Kami siap mendengarkan.</p>
+                    <p><strong>Email:</strong><br> <a href="novalrayan97@gmail.com">novalrayan97@gmail.com</a></p>
+                    <p><strong>Telepon:</strong><br> +62 857 1956 2762</p>
+                    <p><strong>Alamat:</strong><br> Jl. Talas 2 RT 01 RW 001, Tangerang Selatan, Indonesia</p>
+                </div>
+                
+                <div class="form-kontak reveal">
+                    <h3>Kirimkan Kami Pesan</h3>
+                    <form id="kontak-form" novalidate>
+                        
+                        <div class="form-group">
+                            <label for="nama">Nama Lengkap</label>
+                            <input type="text" id="nama" name="nama" required>
+                            <span class="error-message">Nama tidak boleh kosong.</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                            <span class="error-message">Format email tidak valid.</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pesan">Pesan Anda</label>
+                            <textarea id="pesan" name="pesan" required></textarea>
+                            <span class="error-message">Pesan tidak boleh kosong.</span>
+                        </div>
+                        
+                        <button type="submit" class="submit-button">Kirim Pesan</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Websoft Indonesia. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+    
+    <button id="backToTop" title="Kembali ke atas">&uarr;</button>
+
+    <div id="portfolio-modal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-image">
+        <div class="modal-caption">
+            <h4 id="modal-title"></h4>
+            <p id="modal-description"></p>
+        </div>
+    </div>
+
+
+    <script>
+        // Menunggu hingga seluruh konten HTML dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+
+            // === 1. Interaksi Header & Tombol Back to Top ===
+            const header = document.getElementById('main-header');
+            const toTopButton = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', () => {
+                // Logika Header
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                
+                // Logika Tombol "Back to Top"
+                if (window.scrollY > 300) {
+                    toTopButton.classList.add('show');
+                } else {
+                    toTopButton.classList.remove('show');
+                }
+            });
+
+            // Klik pada tombol "Back to Top"
+            toTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // === 2. Logika Mobile Menu (Hamburger) ===
+            const menuToggle = document.getElementById('menu-toggle');
+            const mainNavUl = document.querySelector('#main-nav ul');
+
+            menuToggle.addEventListener('click', () => {
+                mainNavUl.classList.toggle('active');
+            });
+            
+            // Menutup menu saat link di-klik (di mobile)
+            document.querySelectorAll('#main-nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mainNavUl.classList.contains('active')) {
+                        mainNavUl.classList.remove('active');
+                    }
+                });
+            });
+
+            // === 3. Animasi "Fade-in" saat Scroll (Intersection Observer) ===
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Berhenti mengamati setelah terlihat
+                    }
+                });
+            }, { 
+                threshold: 0.1 // Muncul saat 10% elemen terlihat
+            });
+            
+            revealElements.forEach(el => {
+                revealObserver.observe(el);
+            });
+
+            // === 4. Logika Modal Portofolio ===
+            const modal = document.getElementById('portfolio-modal');
+            const modalImg = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-description');
+            const closeModal = document.querySelector('.close-modal');
+            const portfolioItems = document.querySelectorAll('.portofolio-item');
+
+            portfolioItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    modalImg.src = item.dataset.imgSrc;
+                    modalTitle.textContent = item.dataset.title;
+                    modalDesc.textContent = item.dataset.desc;
+                    modal.classList.add('show');
+                });
+            });
+
+            const closeTheModal = () => {
+                modal.classList.remove('show');
+            }
+            
+            closeModal.addEventListener('click', closeTheModal);
+            // Menutup modal saat klik di luar gambar
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeTheModal();
+                }
+            });
+
+            // === 5. Validasi Formulir Real-time ===
+            const form = document.getElementById('kontak-form');
+            const nama = document.getElementById('nama');
+            const email = document.getElementById('email');
+            const pesan = document.getElementById('pesan');
+
+            const showError = (input, message) => {
+                const formGroup = input.parentElement;
+                formGroup.classList.add('error');
+                const errorSpan = formGroup.querySelector('.error-message');
+                errorSpan.textContent = message;
+            }
+
+            const hideError = (input) => {
+                const formGroup = input.parentElement;
+                formGroup.classList.remove('error');
+            }
+
+            const validateEmail = (emailInput) => {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if (!re.test(String(emailInput.value).toLowerCase())) {
+                    showError(emailInput, 'Format email tidak valid.');
+                    return false;
+                }
+                hideError(emailInput);
+                return true;
+            }
+
+            const validateRequired = (input) => {
+                if (input.value.trim() === '') {
+                    showError(input, `${input.labels[0].textContent} tidak boleh kosong.`);
+                    return false;
+                }
+                hideError(input);
+                return true;
+            }
+
+            // Validasi saat 'blur' (keluar dari input)
+            nama.addEventListener('blur', () => validateRequired(nama));
+            email.addEventListener('blur', () => validateEmail(email));
+            pesan.addEventListener('blur', () => validateRequired(pesan));
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault(); // Mencegah submit
+                
+                // Cek semua validasi sebelum submit
+                const isNamaValid = validateRequired(nama);
+                const isEmailValid = validateEmail(email);
+                const isPesanValid = validateRequired(pesan);
+                
+                if (isNamaValid && isEmailValid && isPesanValid) {
+                    alert(`Terima kasih, ${nama.value}! Pesan Anda telah kami terima (simulasi).`);
+                    form.reset();
+                } else {
+                    // Fokus ke error pertama jika ada
+                    if (!isNamaValid) nama.focus();
+                    else if (!isEmailValid) email.focus();
+                    else if (!isPesanValid) pesan.focus();
+                }
+            });
+
+            // === 6. Active Nav Link Highlighting (Pintar saat Scroll) ===
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            const activateNavLink = () => {
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    // Ambil tinggi header untuk offset yang lebih akurat
+                    const headerHeight = header.offsetHeight;
+                    if (window.scrollY >= sectionTop - headerHeight - 100) { 
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    // Cek jika href link mengandung ID section saat ini
+                    if (link.getAttribute('href').includes(currentSection)) {
+                        link.classList.add('active-link');
+                    }
+                });
+            };
+            
+            // Panggil saat scroll dan saat load
+            window.addEventListener('scroll', activateNavLink);
+            activateNavLink(); // Panggil saat halaman dimuat
+        });
+    </script>
+
+</body>
+</html>
+```
